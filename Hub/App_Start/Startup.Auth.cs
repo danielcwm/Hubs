@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Hub.Models;
+using Hub.Models.Dbcontext;
 
 namespace Hub
 {
