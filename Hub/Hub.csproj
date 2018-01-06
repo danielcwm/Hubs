@@ -196,6 +196,14 @@
     <Compile Include="DomainMigrations\201801061005078_InitialModels.Designer.cs">
       <DependentUpon>201801061005078_InitialModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="DomainMigrations\201801061659518_UpdateDomainClassAttribute.cs" />
+    <Compile Include="DomainMigrations\201801061659518_UpdateDomainClassAttribute.Designer.cs">
+      <DependentUpon>201801061659518_UpdateDomainClassAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DomainMigrations\201801061705003_UpdateDomainClassAttribute1.cs" />
+    <Compile Include="DomainMigrations\201801061705003_UpdateDomainClassAttribute1.Designer.cs">
+      <DependentUpon>201801061705003_UpdateDomainClassAttribute1.cs</DependentUpon>
+    </Compile>
     <Compile Include="DomainMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,6 +211,10 @@
     <Compile Include="IdentityMigrations\201801060929011_InitialIdentityModels.cs" />
     <Compile Include="IdentityMigrations\201801060929011_InitialIdentityModels.Designer.cs">
       <DependentUpon>201801060929011_InitialIdentityModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IdentityMigrations\201801061644476_PopulateAdminRole.cs" />
+    <Compile Include="IdentityMigrations\201801061644476_PopulateAdminRole.Designer.cs">
+      <DependentUpon>201801061644476_PopulateAdminRole.cs</DependentUpon>
     </Compile>
     <Compile Include="IdentityMigrations\Configuration.cs" />
     <Compile Include="Models\DbContext\ApplicationDbContext.cs" />
@@ -296,8 +308,17 @@
     <EmbeddedResource Include="DomainMigrations\201801061005078_InitialModels.resx">
       <DependentUpon>201801061005078_InitialModels.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DomainMigrations\201801061659518_UpdateDomainClassAttribute.resx">
+      <DependentUpon>201801061659518_UpdateDomainClassAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DomainMigrations\201801061705003_UpdateDomainClassAttribute1.resx">
+      <DependentUpon>201801061705003_UpdateDomainClassAttribute1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IdentityMigrations\201801060929011_InitialIdentityModels.resx">
       <DependentUpon>201801060929011_InitialIdentityModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IdentityMigrations\201801061644476_PopulateAdminRole.resx">
+      <DependentUpon>201801061644476_PopulateAdminRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
