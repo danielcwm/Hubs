@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Hub.Models;
+using Hub.Models.Dbcontext;
+using Hub.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Hub.Controllers
 {
@@ -17,11 +20,11 @@ namespace Hub.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private readonly DomainDbContext _domainDbContext = new DomainDbContext();
         public AccountController()
-        {
+        {            
         }
-
+       
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -152,9 +155,17 @@ namespace Hub.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, "user");
+                    _domainDbContext.DomainUsers.Add(new DomainUser
+                    {
+                        Id = user.Id,
+                        Name = model.Email
+                    });
+                    _domainDbContext.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -163,7 +174,7 @@ namespace Hub.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("LandingPage", "Home");
                 }
                 AddErrors(result);
             }
@@ -392,7 +403,7 @@ namespace Hub.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LandingPage", "Home");
         }
 
         //
@@ -449,7 +460,7 @@ namespace Hub.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LandingPage", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

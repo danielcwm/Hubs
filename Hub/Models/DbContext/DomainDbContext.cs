@@ -21,7 +21,19 @@ namespace Hub.Models.Dbcontext
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        {         
+
+            modelBuilder.Entity<Project>().Property(p => p.Description).IsRequired();
+            modelBuilder.Entity<Project>().Property(p => p.ContactEmail).IsRequired();
+            modelBuilder.Entity<Project>().Property(p => p.Title).IsRequired();
+            modelBuilder.Entity<Tag>().Property(t => t.Name).IsRequired();
+            modelBuilder.Entity<Unit>().Property(u => u.Name).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<University>().Property(u => u.UniName).IsRequired();
+            modelBuilder.Entity<University>().Property(u => u.State).IsRequired();
+
+            modelBuilder.Entity<DomainUser>()
+                .Property(du => du.Id).HasColumnType("nvarchar").HasDatabaseGeneratedOption(null);
+
             modelBuilder.Entity<Project>()
                 .HasMany(p => p.Tag)
                 .WithMany(t => t.Project)
@@ -34,8 +46,13 @@ namespace Hub.Models.Dbcontext
 
             modelBuilder.Entity<DomainUser>()
                 .HasMany(u => u.Projects)
-                .WithRequired(p => p.Creator)
-                .HasForeignKey(p => p.CreatorId);
+                .WithMany(p => p.DomainUser)
+                .Map(m =>
+                {
+                    m.ToTable("UserProjects");
+                    m.MapLeftKey("ProjectId");
+                    m.MapRightKey("DomainUserId");
+                });
 
             modelBuilder.Entity<DomainUser>()
                 .HasMany(u => u.University)
